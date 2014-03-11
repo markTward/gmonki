@@ -16,9 +16,9 @@ class ConfigClass(object):
     MAIL_SERVER   = 'smtp.gmail.com'
     MAIL_PORT     = 465
     MAIL_USE_SSL  = True                            # Some servers use MAIL_USE_TLS=True instead
-    MAIL_USERNAME = 'email@example.com'
-    MAIL_PASSWORD = 'password'
-    MAIL_DEFAULT_SENDER = '"Sender" <noreply@example.com>'
+    MAIL_USERNAME = 'markosysdev'
+    MAIL_PASSWORD = 'G00gl3D3v!!'
+    MAIL_DEFAULT_SENDER = '"Sender" <noreply@gmonki.com>'
 
     # Configure Flask-User
     USER_ENABLE_USERNAME        = True              # Register and Login with username
@@ -79,18 +79,33 @@ def create_app(test_config=None):                   # For automated tests
     # Reset all the database tables
     db.create_all()
 
+    # Make some 'play' roles for testing
+    secret_role = Role(name='secret')
+    agent_role = Role(name='agent')
+    admin_role = Role(name='admin')
+
     # Setup Flask-User
     db_adapter = SQLAlchemyAdapter(db,  User)
     user_manager = UserManager(db_adapter, app)
 
     # Create 'user007' user with 'secret' and 'agent' roles
     if not User.query.filter(User.username=='user007').first():
-        user1 = User(username='user007', email='user007@example.com', active=True,
+        user1 = User(username='user007', email='007@marktward.name', active=True,
                 password=user_manager.password_crypt_context.encrypt('Password1'))
-        user1.roles.append(Role(name='secret'))
-        user1.roles.append(Role(name='agent'))
+        user1.roles.append(secret_role)
+        user1.roles.append(agent_role)
         db.session.add(user1)
-        db.session.commit()
+
+    if not User.query.filter(User.username=='M').first():
+        user2 = User(username='M', email='m@marktward.name', active=True,
+                password=user_manager.password_crypt_context.encrypt('Password1'))
+        user2.roles.append(secret_role)
+        user2.roles.append(agent_role)
+        user2.roles.append(admin_role)
+        db.session.add(user2)
+
+    # commit all db entries
+    db.session.commit()
 
     # The '/' page is accessible to anyone
     @app.route('/')
@@ -132,6 +147,16 @@ def create_app(test_config=None):                   # For automated tests
             {% extends "base.html" %}
             {% block content %}
             <h2>{%trans%}Special Page{%endtrans%}</h2>
+            {% endblock %}
+            """)
+
+    @app.route('/admin')
+    @roles_required('admin')   # Use of @roles_required decorator
+    def admin_page():
+        return render_template_string("""
+            {% extends "base.html" %}
+            {% block content %}
+            <h2>{%trans%}Administration{%endtrans%}</h2>
             {% endblock %}
             """)
 
