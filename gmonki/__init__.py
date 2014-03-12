@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
-from flask import Flask, render_template_string, request, jsonify
+from flask import Flask, request
 from flask.ext.babel import Babel
 from flask.ext.mail import Mail
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.user import login_required, SQLAlchemyAdapter, UserManager, UserMixin
 from flask.ext.user import roles_required
+from werkzeug.routing import Rule
+
 import os
 
 def create_app(test_config=None):                   # For automated tests
@@ -87,68 +89,13 @@ def create_app(test_config=None):                   # For automated tests
     # commit all db entries
     db.session.commit()
 
-    # The '/' page is accessible to anyone
-    @app.route('/')
-    def home_page():
-        return render_template_string("""
-            {% extends "base.html" %}
-            {% block content %}
-            <h2>{%trans%}Home Page{%endtrans%}</h2>
-            <p><a href="{{ url_for('user.login') }}">{%trans%}Sign in{%endtrans%}</a></p>
-            {% endblock %}
-            """)
-
-    # The '/profile' page requires a logged-in user
-    @app.route('/profile')
-    @login_required                                 # Use of @login_required decorator
-    def profile_page():
-        return render_template_string("""
-            {% extends "base.html" %}
-            {% block content %}
-            <h2>{%trans%}Profile Page{%endtrans%}</h2>
-            <p> {%trans%}Hello{%endtrans%}
-                {{ current_user.username or current_user.email }},</p>
-            <p> <a href="{{ url_for('user.change_username') }}">
-                {%trans%}Change username{%endtrans%}</a></p>
-            <p> <a href="{{ url_for('user.change_password') }}">
-                {%trans%}Change password{%endtrans%}</a></p>
-            <p> <a href="{{ url_for('user.logout') }}?next={{ url_for('user.login') }}">
-                {%trans%}Sign out{%endtrans%}</a></p>
-            {% endblock %}
-            """)
-
-    # The '/special' page requires a user that has the 'special' AND ('sauce' OR 'agent') role.
-    @app.route('/special')
-    @roles_required('secret', ['sauce', 'agent'])   # Use of @roles_required decorator
-    def special_page():
-        return render_template_string("""
-            {% extends "base.html" %}
-            {% block content %}
-            <h2>{%trans%}Special Page{%endtrans%}</h2>
-            {% endblock %}
-            """)
-
-    @app.route('/admin')
-    @roles_required('admin')   # Use of @roles_required decorator
-    def admin_page():
-        return render_template_string("""
-            {% extends "base.html" %}
-            {% block content %}
-            <h2>{%trans%}Administration{%endtrans%}</h2>
-            {% endblock %}
-            """)
-
-    # Show Flask configuration vars. ADMINS ONLY!
-    @app.route('/config')
-    @roles_required('admin')
-    def show_flask_config():
-		config_response = {'gmonki_config' : os.environ.get('GMONKI_CONFIG', None),
-   						   'flask_config':{k:str(v) for k,v in app.config.items()},
-   						   'request.host_url' : request.host_url,
-   						   'request.url_root' : request.url_root,
-   						   'app.debug':app.debug}
-   		return jsonify(config_response)
-
     return app
 
 app = create_app()
+
+# routing rules
+app.url_map.add(Rule('/index', endpoint='index'))
+
+# views
+from gmonki.views import standard
+from gmonki.views import admin
