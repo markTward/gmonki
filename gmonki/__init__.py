@@ -1,37 +1,17 @@
-from flask import Flask, render_template_string, request
+# -*- coding: utf-8 -*-
+from flask import Flask, render_template_string, request, jsonify
 from flask.ext.babel import Babel
 from flask.ext.mail import Mail
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.user import login_required, SQLAlchemyAdapter, UserManager, UserMixin
 from flask.ext.user import roles_required
-
-# Use a Class-based config to avoid needing a 2nd file
-class ConfigClass(object):
-    # Configure Flask
-    SECRET_KEY = 'THIS IS AN INSECURE SECRET'       # Change this for production!!!
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///roles_required_app.db'  # Use Sqlite file db
-    CSRF_ENABLED = True
-
-    # Configure Flask-Mail -- Required for Confirm email and Forgot password features
-    MAIL_SERVER   = 'smtp.gmail.com'
-    MAIL_PORT     = 465
-    MAIL_USE_SSL  = True                            # Some servers use MAIL_USE_TLS=True instead
-    MAIL_USERNAME = 'markosysdev'
-    MAIL_PASSWORD = 'G00gl3D3v!!'
-    MAIL_DEFAULT_SENDER = '"Sender" <noreply@gmonki.com>'
-
-    # Configure Flask-User
-    USER_ENABLE_USERNAME        = True              # Register and Login with username
-    USER_ENABLE_EMAIL           = True              # Register with email
-    USER_ENABLE_CONFIRM_EMAIL   = True              # Require email confirmation
-    USER_ENABLE_CHANGE_USERNAME = True
-    USER_ENABLE_CHANGE_PASSWORD = True
-    USER_ENABLE_FORGOT_PASSWORD = True
+import os
 
 def create_app(test_config=None):                   # For automated tests
-    # Setup Flask and read config from ConfigClass defined above
+    # Setup Flask and acquire configuration
     app = Flask(__name__)
-    app.config.from_object(__name__+'.ConfigClass')
+    gmonki_config = 'config.' + os.environ['GMONKI_CONFIG']
+    app.config.from_object(gmonki_config)
 
     # Load local_settings.py if file exists         # For automated tests
     try: app.config.from_object('local_settings')
@@ -96,8 +76,8 @@ def create_app(test_config=None):                   # For automated tests
         user1.roles.append(agent_role)
         db.session.add(user1)
 
-    if not User.query.filter(User.username=='M').first():
-        user2 = User(username='M', email='m@marktward.name', active=True,
+    if not User.query.filter(User.username=='Queue').first():
+        user2 = User(username='Queue', email='Q@marktward.name', active=True,
                 password=user_manager.password_crypt_context.encrypt('Password1'))
         user2.roles.append(secret_role)
         user2.roles.append(agent_role)
@@ -157,6 +137,17 @@ def create_app(test_config=None):                   # For automated tests
             <h2>{%trans%}Administration{%endtrans%}</h2>
             {% endblock %}
             """)
+
+    # Show Flask configuration vars. ADMINS ONLY!
+    @app.route('/config')
+    @roles_required('admin')
+    def show_flask_config():
+		config_response = {'gmonki_config' : os.environ.get('GMONKI_CONFIG', None),
+   						   'flask_config':{k:str(v) for k,v in app.config.items()},
+   						   'request.host_url' : request.host_url,
+   						   'request.url_root' : request.url_root,
+   						   'app.debug':app.debug}
+   		return jsonify(config_response)
 
     return app
 
