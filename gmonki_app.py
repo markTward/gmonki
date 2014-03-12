@@ -110,8 +110,6 @@ def create_app(test_config=None):                   # For automated tests
     # The '/' page is accessible to anyone
     @app.route('/')
     def home_page():
-        # if current_user.is_authenticated():
-        #     return profile_page()
         return render_template_string("""
             {% extends "base.html" %}
             {% block content %}
