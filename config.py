@@ -45,8 +45,7 @@ class ConfigDev(Config):
     DEBUG = True
     TRAP_BAD_REQUEST_ERRORS = True
     USE_SSLIFY = False
-    #SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'db/gmonki.db') 
-    SQLALCHEMY_DATABASE_URI = 'postgres://hwidynmovbnetf:BZcwtVW4PUxSeJ6Sxh2h28A3d-@ec2-54-235-194-252.compute-1.amazonaws.com:5432/dbh7g3h5t1afjo'
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'db/gmonki.db') 
 
 class ConfigStg(Config):
     USE_SSLIFY = True
