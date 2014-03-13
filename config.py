@@ -3,6 +3,7 @@
     config.py
 """
 import os
+basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config(object):
     # Environment Settings
@@ -10,9 +11,8 @@ class Config(object):
     TESTING = False
 
 	# Flask App
-    SECRET_KEY = 'THIS IS AN INSECURE SECRET'       # Change this for production!!!
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///db/gmonki.db'  # Use Sqlite file db
-    #SQLALCHEMY_DATABASE_URI = 'mysql://b2d6058bb51e7b:ca555795@us-cdbr-east-04.cleardb.com/heroku_1e534ee4b1d597c?reconnect=true'
+    SECRET_KEY = 'THIS IS AN INSECURE SECRET' 
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'db/gmonki.db') 
 
     CSRF_ENABLED = True
     USE_SSLIFY = False
