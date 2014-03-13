@@ -12,6 +12,8 @@ class Config(object):
 	# Flask App
     SECRET_KEY = 'THIS IS AN INSECURE SECRET'       # Change this for production!!!
     SQLALCHEMY_DATABASE_URI = 'sqlite:///db/gmonki.db'  # Use Sqlite file db
+    #SQLALCHEMY_DATABASE_URI = 'mysql://b2d6058bb51e7b:ca555795@us-cdbr-east-04.cleardb.com/heroku_1e534ee4b1d597c?reconnect=true'
+
     CSRF_ENABLED = True
     USE_SSLIFY = False
 
