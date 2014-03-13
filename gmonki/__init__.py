@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from flask import Flask, request
+from flask_sslify import SSLify
 from flask.ext.babel import Babel
 from flask.ext.mail import Mail
 from flask.ext.sqlalchemy import SQLAlchemy
@@ -28,6 +29,10 @@ def create_app(test_config=None):                   # For automated tests
     app.mail = Mail(app)
     app.babel = babel = Babel(app)
     app.db = db = SQLAlchemy(app)
+
+    # extend app with Flask-SSLify, forcing https per config setting
+    if app.config['USE_SSLIFY']:
+   	    sslify = SSLify(app)
 
     @babel.localeselector
     def get_locale():

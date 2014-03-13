@@ -15,7 +15,11 @@ def index():
         {% extends "base.html" %}
         {% block content %}
         <h2>{%trans%}HOME Page{%endtrans%}</h2>
-        <p><a href="{{ url_for('user.login') }}">{%trans%}Sign in{%endtrans%}</a></p>
+		{% if current_user.username == null %}
+        	<p><a href="{{ url_for('user.login') }}">{%trans%}Sign in{%endtrans%}</a></p>
+		{% else %}
+        	<p><a href="{{ url_for('user.logout') }}">{%trans%}Sign out{%endtrans%}</a></p>
+		{% endif %}
         {% endblock %}
         """)
 
