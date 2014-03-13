@@ -12,7 +12,6 @@ class Config(object):
 
 	# Flask App
     SECRET_KEY = 'THIS IS AN INSECURE SECRET' 
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'db/gmonki.db') 
 
     CSRF_ENABLED = True
     USE_SSLIFY = False
@@ -46,7 +45,13 @@ class ConfigDev(Config):
     DEBUG = True
     TRAP_BAD_REQUEST_ERRORS = True
     USE_SSLIFY = False
+    #SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'db/gmonki.db') 
+    SQLALCHEMY_DATABASE_URI = 'postgres://hwidynmovbnetf:BZcwtVW4PUxSeJ6Sxh2h28A3d-@ec2-54-235-194-252.compute-1.amazonaws.com:5432/dbh7g3h5t1afjo'
 
+class ConfigStg(Config):
+    USE_SSLIFY = True
+    SQLALCHEMY_DATABASE_URI = 'postgres://cnclgiecptkhym:Fjvtv1KMumf1M_9fJ2kihZgeIG@ec2-54-204-38-16.compute-1.amazonaws.com:5432/ddq483755ddcgp'
+	
 class ConfigTest(Config):
     TESTING = True
     
