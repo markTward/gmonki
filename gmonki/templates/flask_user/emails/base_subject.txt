@@ -1,1 +1,1 @@
-Flask-User {% block subject %}{% endblock %}
+GreedyMonkey {% block subject %}{% endblock %}
