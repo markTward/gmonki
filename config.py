@@ -16,14 +16,6 @@ class Config(object):
     CSRF_ENABLED = True
     USE_SSLIFY = False
 
-    # Configure Flask-Mail
-    MAIL_SERVER   = 'smtp.gmail.com'
-    MAIL_PORT     = 465
-    MAIL_USE_SSL  = True
-    MAIL_USERNAME = 'markosysdev'
-    MAIL_PASSWORD = 'G00gl3D3v!!'
-    MAIL_DEFAULT_SENDER = '"Sender" <noreply@gmonki.com>'
-
     # Configure Flask-User
     USER_ENABLE_USERNAME        = True              # Register and Login with username
     USER_ENABLE_EMAIL           = True              # Register with email
@@ -47,10 +39,26 @@ class ConfigDev(Config):
     USE_SSLIFY = False
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'db/gmonki.db') 
 
+    # Configure Flask-Mail
+    MAIL_SERVER   = 'smtp.gmail.com'
+    MAIL_PORT     = 465
+    MAIL_USE_SSL  = True
+    MAIL_USERNAME = os.environ.get('GMAIL_USERNAME')
+    MAIL_PASSWORD = os.environ.get('GMAIL_PASSWD')
+    MAIL_DEFAULT_SENDER = '"Sender" <noreply@gmonki.com>'
+
 class ConfigStg(Config):
-    USE_SSLIFY = True
-    SQLALCHEMY_DATABASE_URI = 'postgres://cnclgiecptkhym:Fjvtv1KMumf1M_9fJ2kihZgeIG@ec2-54-204-38-16.compute-1.amazonaws.com:5432/ddq483755ddcgp'
+    #USE_SSLIFY = True
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
 	
+    # Configure Flask-Mail
+    MAIL_SERVER   = 'smtp.mandrillapp.com'
+    MAIL_PORT     = 465
+    MAIL_USE_SSL  = True
+    MAIL_USERNAME = os.environ.get('MANDRILL_USERNAME')
+    MAIL_PASSWORD = os.environ.get('MANDRILL_APIKEY')
+    MAIL_DEFAULT_SENDER = '"Sender" <noreply@gmonki.com>'
+
 class ConfigTest(Config):
     TESTING = True
     
