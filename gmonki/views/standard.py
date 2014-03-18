@@ -14,7 +14,7 @@ def index():
     return render_template_string("""
         {% extends "base.html" %}
         {% block content %}
-        <h2>{%trans%}HOME Page{%endtrans%}</h2>
+        <h2>{%trans%}Home Page{%endtrans%}</h2>
 		{% if current_user.username == null %}
         	<p><a href="{{ url_for('user.login') }}">{%trans%}Sign in{%endtrans%}</a></p>
 		{% else %}
