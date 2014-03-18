@@ -3,7 +3,7 @@
 	admin.py
 """
 
-from flask import render_template_string, url_for, request, jsonify
+from flask import render_template, request, jsonify
 from flask.ext.user import login_required, roles_required
 from gmonki import app
 import os
@@ -11,12 +11,7 @@ import os
 @app.route('/admin')
 @roles_required('admin')   # Use of @roles_required decorator
 def admin_page():
-    return render_template_string("""
-        {% extends "base.html" %}
-        {% block content %}
-        <h2>{%trans%}Administration{%endtrans%}</h2>
-        {% endblock %}
-        """)
+    return render_template('admin.html', title="Administration")
 
 # Show Flask configuration vars. ADMINS ONLY!
 @app.route('/config')
