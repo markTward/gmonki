@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {% block tab_title %}
-    	<title>GreediMonki :: {{title}} </title>
+    	<title>GreediMonki{% if title != null %} :: {{title}}{% endif %} </title>
     {% endblock %}
 
     <!-- Bootstrap -->
@@ -46,18 +46,6 @@
 				{% if current_user.username == null %}
 					{{ nav_link('user.login', 'Sign In') }}
 				{% else %}
-					{% block user_tools %}
-					    <li class="dropdown">
-					        <a href="#" class="dropdown-toggle" data-toggle="dropdown">User Tools<b class="caret"></b></a>
-					        <ul class="dropdown-menu">
-					            <li><a href="/profile">Profile</a></li>
-					            <li><a href="#">Something</a></li>
-					            <li><a href="#">Something else</a></li>
-					            <li class="divider"></li>
-					            <li><a href="#">Separated link</a></li>
-					        </ul>           
-					    </li>   
-					{% endblock %}
 					{% block admin_tools %}
 						{% if current_user.has_roles('admin') %}
 						    <li class="dropdown">
@@ -71,6 +59,18 @@
 						        </ul>           
 						    </li>   
 						{% endif %}
+					{% endblock %}
+					{% block user_tools %}
+					    <li class="dropdown">
+					        <a href="#" class="dropdown-toggle" data-toggle="dropdown">User Tools<b class="caret"></b></a>
+					        <ul class="dropdown-menu">
+					            <li><a href="/profile">Profile</a></li>
+					            <li><a href="#">Something</a></li>
+					            <li><a href="#">Something else</a></li>
+					            <li class="divider"></li>
+					            <li><a href="#">Separated link</a></li>
+					        </ul>           
+					    </li>   
 					{% endblock %}
 					{{ nav_link('user.logout', 'Sign Out') }}
 				{% endif %}
