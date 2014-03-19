@@ -46,19 +46,22 @@
 				{% if current_user.username == null %}
 					{{ nav_link('user.login', 'Sign In') }}
 				{% else %}
+					{% block admin_tools %}
+						{% if current_user.has_roles('admin') %}
+						    <li class="dropdown">
+						        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin Tools<b class="caret"></b></a>
+						        <ul class="dropdown-menu">
+						            <li><a href="/admin">Administration Home</a></li>
+						            <li><a href="/config">Flask Configuration</a></li>
+						            <li><a href="#">Something else here</a></li>
+						            <li class="divider"></li>
+						            <li><a href="#">Separated link</a></li>
+						        </ul>           
+						    </li>   
+						{% endif %}
+					{% endblock %}
 					{{ nav_link('user.logout', 'Sign Out') }}
-
 				{% endif %}
-		      <li class="dropdown">
-		        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-		        <ul class="dropdown-menu">
-		          <li><a href="#">Action</a></li>
-		          <li><a href="#">Another action</a></li>
-		          <li><a href="#">Something else here</a></li>
-		          <li class="divider"></li>
-		          <li><a href="#">Separated link</a></li>
-		        </ul>
-		      </li>
 		    </ul>
 		  </div><!-- /.navbar-collapse -->
 		</div><!-- /.container-fluid -->

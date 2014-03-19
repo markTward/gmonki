@@ -27,6 +27,20 @@ if app.config['USE_SSLIFY']:
 def get_locale():
     return request.accept_languages.best_match(['en', 'nl'])
 
+# jinja2 filters
+# help produce bad json formatting
+@app.template_filter()
+def nl2br(value): 
+     return value.replace('\n','<br>\n')
+
+# show all template object attributes
+@app.template_filter()
+def show_all_attrs(value):
+    res = []
+    for k in dir(value):
+        res.append('%r %r\n' % (k, getattr(value, k)))
+    return '\n'.join(res)
+
 #flask_user
 from models.userrole import User, Role
 app.User = User
