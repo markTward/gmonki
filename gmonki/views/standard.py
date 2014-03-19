@@ -16,7 +16,6 @@ def index():
 def about_page():
     return render_template('about.html', title="About")
 
-@app.route('/profile')
-@login_required
-def profile_page():
-    return render_template('profile.html', title='Profile -- ' + current_user.username)
+@app.route('/blog')
+def blog_page():
+    return render_template('blog.html', title="Blog")
