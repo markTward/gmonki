@@ -31,10 +31,6 @@ def show_flask_config():
 @app.route('/current_user')
 @roles_required('admin')
 def show_current_user():
-    exclude_list = ['has_roles','roles', 'query', 'query_class']
-    #current_user_data = {'current_user_data':{attr:getattr(current_user,attr) for attr in dir(current_user) if not attr.startswith('_') and attr not in exclude_list }}
     return render_template('current_user.html', 
 							title='current_user attributes & methods')
-							#current_user_data = current_user_data)
-							#current_user_data = json.dumps(current_user_data, sort_keys=True, indent=4, separators=(',' ,': ')))
 
