@@ -43,9 +43,7 @@
 		            {{ nav_link('blog_page', 'Blog')}}
 		    </ul>
 		    <ul class="nav navbar-nav navbar-right">
-				{% if current_user.username == null %}
-					{{ nav_link('user.login', 'Sign In') }}
-				{% else %}
+				{% if current_user.is_authenticated() %}
 					{% block admin_tools %}
 						{% if current_user.has_roles('admin') %}
 						    <li class="dropdown">
@@ -53,7 +51,7 @@
 						        <ul class="dropdown-menu">
 						            <li><a href="/admin">Administration Home</a></li>
 						            <li><a href="/config">Flask Configuration</a></li>
-						            <li><a href="#">Something else here</a></li>
+						            <li><a href="/current_user">Current User</a></li>
 						            <li class="divider"></li>
 						            <li><a href="#">Separated link</a></li>
 						        </ul>           
@@ -73,6 +71,8 @@
 					    </li>   
 					{% endblock %}
 					{{ nav_link('user.logout', 'Sign Out') }}
+				{% else %}
+					{{ nav_link('user.login', 'Sign In') }}
 				{% endif %}
 		    </ul>
 		  </div><!-- /.navbar-collapse -->
