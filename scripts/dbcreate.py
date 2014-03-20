@@ -7,28 +7,18 @@ from gmonki import app, db, User, Role, user_manager
 db.create_all()
 
 # Make some 'play' roles for testing
-secret_role = Role(name='secret')
-agent_role = Role(name='agent')
+user_role = Role(name='user')
 admin_role = Role(name='admin')
 
 # Create test users
-# basic
-user0 = User(username='joe', email='joe@marktward.name', active=True, 
-			 password=user_manager.password_crypt_context.encrypt('Password1'))
-db.session.add(user0)
-
-# special
 user1 = User(username='user007', email='007@marktward.name', active=True, 
 			 password=user_manager.password_crypt_context.encrypt('Password1'))
-user1.roles.append(secret_role)
-user1.roles.append(agent_role)
+user1.roles.append(user_role)
 db.session.add(user1)
 
-#admin
 user2 = User(username='Queue', email='Q@marktward.name', active=True,
         password=user_manager.password_crypt_context.encrypt('Password1'))
-user2.roles.append(secret_role)
-user2.roles.append(agent_role)
+user2.roles.append(user_role)
 user2.roles.append(admin_role)
 db.session.add(user2)
 
