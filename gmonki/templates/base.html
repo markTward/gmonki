@@ -3,11 +3,13 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-8 col-md-7 col-lg-6 col-centered">
+
 			{% block app_header %}
 				<h1><a href="/">GreediMonki!</a></h1>
 				<h4>An Internet of [People, Places, Things]!</h4>
 				<hr>
             {% endblock %}
+
             {% block flash_messages %}
                 {%- with messages = get_flashed_messages(with_categories=true) -%}
                     {% if messages %}
@@ -20,11 +22,20 @@
                     {% endif %}
                 {%- endwith %}
             {% endblock %}
+
 			{%block page_header %}
 				<h2>{{ title }}</h2>
             {% endblock %}
+
             {% block content %}
             {% endblock %}
+
+			{% block debug %}
+				{% if config.DEBUG and request.values.get('debug') %}
+					{% include '/debug/flask_request.html' ignore missing %}
+				{% endif %}
+			{% endblock %}
+
 			{% block footer %}
 				<hr>
 				&copy; 2014 GreediMonki.com

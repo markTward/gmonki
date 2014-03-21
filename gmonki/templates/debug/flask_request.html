@@ -1,12 +1,16 @@
 <hr>
 <h4>DEBUG: Flask request object values:</h4>
-HOST: {{request.host}} <br>
-HOST_URL: {{request.host_url}} <br>
-PORT: {{request.http_port}} <br>
-SCHEME: {{request.scheme}} <br>
-PATH: {{request.path}} <br>
-SCRIPT_ROOT: {{request.script_root}} <br>
-BASE_URL: {{request.base_url}} <br>
 URL: {{request.url}} <br>
+BASE_URL: {{request.base_url}} <br>
+HOST_URL: {{request.host_url}} <br>
+SCHEME: {{request.scheme}} <br>
+HOST: {{request.host}} <br>
+PORT: {{request.http_port}} <br>
+PATH: {{request.path}} <br>
+QUERY STRING: {{request.query_string}} <br>
+ARGS: {{request.args}} <br>
+SCRIPT_ROOT: {{request.script_root}} <br>
 REFERRER: {{request.referrer}} <br>
-VALUES.GET.NEXT: {{request.values.get('next')}}<br>
+VALUES.GET('NEXT'): {{request.values.get('next')}}<br>
+VALUES.GET('DEBUG'): {{request.values.get('debug')}} <br>
+ARGS['debug']: {{request.args['debug']}}
