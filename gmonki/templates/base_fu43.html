@@ -1,10 +1,13 @@
+{% block macros_base%}{% endblock %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Flask-User Example App</title>
+	{% block tab_title %}
+    	<title>Flask-User Example App</title>
+	{% endblock %}
 
     <!-- Bootstrap -->
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
@@ -18,17 +21,19 @@
     <![endif]-->
   </head>
   <body>
-
+	{% block nav %}{% endblock %}
     {% block body %}
     <div class="container">
         <div class="row">
             <div class="col-sm-8 col-md-7 col-lg-6 col-centered">
+				{% block app_header %}
                 <h1><a href="/">{% block title %}Flask-User - {% if not user_manager.enable_confirm_email %}Minimal{% else %}Example{% endif %} App{% endblock %}</a></h1>
                 {% if not user_manager.enable_confirm_email %}
                 This Minimal App has no Email confirmation or Forgot password.<br/>
                 See <a href="http://pythonhosted.org//Flask-User/basic_app.html" target="_blank">Basic App</a> for an app with these features enabled.
                 {% endif %}
                 <hr>
+				{% endblock %}
                 {% block flash_messages %}
                     {%- with messages = get_flashed_messages(with_categories=true) -%}
                         {% if messages %}
@@ -42,10 +47,14 @@
                     {%- endwith %}
                 {% endblock %}
 
+				{% block page_header %}{% endblock %}
                 {% block content %}
                 {% endblock %}
+				{% block debug %}{% endblock %}
+				{% block footer %}
                 <hr>
                 Copyright 2013 - SolidBuilds.com
+				{% endblock %}
             </div>
         </div>
     </div>
