@@ -10,9 +10,13 @@ class Config(object):
     DEBUG = False
     TESTING = False
 
+    # GreediMonki
+    GMONKI_COMPANY_NAME_FULL = 'GreediMonki, Co.'
+    GMONKI_COMPANY_NAME_LONG = 'GreediMonki'
+    GMONKI_COMPANY_NAME_SHORT = 'gmonki'
+
 	# Flask App
     SECRET_KEY = 'THIS IS AN INSECURE SECRET' 
-
     CSRF_ENABLED = True
     USE_SSLIFY = False
 

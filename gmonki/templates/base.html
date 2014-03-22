@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block tab_title %}
-    <title>GreediMonki{% if title != null %} :: {{title}}{% endif %} </title>
+    <title>{{ config.GMONKI_COMPANY_NAME_LONG }}{% if title != null %} :: {{title}}{% endif %} </title>
 {% endblock %}
 
 {% block nav %}
@@ -21,7 +21,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="/">GreediMonki!</a>
+        <a class="navbar-brand" href="/">{{ config.GMONKI_COMPANY_NAME_LONG }}</a>
       </div>
 
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -69,7 +69,7 @@
 {% endblock %}
 
 {% block app_header %}
-    <h1><a href="/">GreediMonki!</a></h1>
+    <h1><a href="/">{{ config.GMONKI_COMPANY_NAME_LONG }}</a></h1>
     <h4>An Internet of [People, Places, Things]!</h4>
     <hr>
 {% endblock %}
@@ -80,13 +80,13 @@
 
 {% block debug %}
     {% if config.DEBUG and request.values.get('debug') %}
-        {% include '/debug/flask_request.html' ignore missing %}
+        {% include 'debug/flask_request.html' ignore missing %}
     {% endif %}
 {% endblock %}
 
 {% block footer %}
     <hr>
-    &copy; 2014 GreediMonki.com
+    &copy; 2014 {{ config.GMONKI_COMPANY_NAME_FULL }}
     {% if config.DEBUG %}
         <p> {{self}} </p>
     {% endif %}

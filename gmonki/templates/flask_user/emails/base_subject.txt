@@ -1,1 +1,1 @@
-GreedyMonkey {% block subject %}{% endblock %}
+{{ config.GMONKI_COMPANY_NAME_SHORT }} {% block subject %}{% endblock %}

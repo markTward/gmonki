@@ -1,7 +1,14 @@
-<p>Dear User,</p>
+{% block greeting %}
+{% if user.username != null %}
+	<p>Dear {{ user.username }},</p>
+{% else %}
+	<p>Dear User,</p>
+{% endif %}
+{% endblock %}
 
 {% block message %}
 {% endblock %}
 
-<p>Sincerely,<br/>
-The GreedyMonkey Team</p>
+{% block signature %}
+	{% include 'flask_user/emails/base_signature.html' ignore missing %}
+{% endblock %}
