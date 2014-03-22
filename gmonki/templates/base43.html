@@ -1,4 +1,3 @@
-{% block macros_base%}{% endblock %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -9,9 +8,11 @@
     	<title>Flask-User Example App</title>
 	{% endblock %}
 
-    <!-- Bootstrap -->
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
-    <style>.col-centered { float: none; margin: 0 auto; }</style>
+	{% block stylesheet %}
+    	<!-- Bootstrap -->
+    	<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+    	<style>.col-centered { float: none; margin: 0 auto; }</style>
+	{% endblock %}
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -48,12 +49,11 @@
                 {% endblock %}
 
 				{% block page_header %}{% endblock %}
-                {% block content %}
-                {% endblock %}
+                {% block content %} {% endblock %}
 				{% block debug %}{% endblock %}
 				{% block footer %}
-                <hr>
-                Copyright 2013 - SolidBuilds.com
+                	<hr>
+                	Copyright 2013 - SolidBuilds.com
 				{% endblock %}
             </div>
         </div>

@@ -1,50 +1,95 @@
-{% extends "html_base.html" %}
-{% block body %}
-<div class="container">
-    <div class="row">
-        <div class="col-sm-8 col-md-7 col-lg-6 col-centered">
+{% from "macros.html" import nav_link with context %}
+{% extends "base43.html" %}
 
-			{% block app_header %}
-				<h1><a href="/">GreediMonki!</a></h1>
-				<h4>An Internet of [People, Places, Things]!</h4>
-				<hr>
-            {% endblock %}
-
-            {% block flash_messages %}
-                {%- with messages = get_flashed_messages(with_categories=true) -%}
-                    {% if messages %}
-                        {% for category, message in messages %}
-                            {% if category=='error' %}
-                                {% set category='danger' %}
-                            {% endif %}
-                            <div class="alert alert-{{category}}">{{ message }}</div>
-                        {% endfor %}
-                    {% endif %}
-                {%- endwith %}
-            {% endblock %}
-
-			{%block page_header %}
-				<h2>{{ title }}</h2>
-            {% endblock %}
-
-            {% block content %}
-            {% endblock %}
-
-			{% block debug %}
-				{% if config.DEBUG and request.values.get('debug') %}
-					{% include '/debug/flask_request.html' ignore missing %}
-				{% endif %}
-			{% endblock %}
-
-			{% block footer %}
-				<hr>
-				&copy; 2014 GreediMonki.com
-                {% if config.DEBUG %}
-                    <p> {{self}} </p>
-                {% endif %}
-				<hr>
-            {% endblock %}
-        </div>
-    </div>
-</div>
+{% block stylesheet %}
+    <!-- Bootstrap -->
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <!-- <style>.col-centered { float: none; margin: 0 auto; }</style> -->
 {% endblock %}
+
+{% block tab_title %}
+    <title>GreediMonki{% if title != null %} :: {{title}}{% endif %} </title>
+{% endblock %}
+
+{% block nav %}
+    <nav class="navbar navbar-inverse" role="navigation">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">GreediMonki!</a>
+      </div>
+
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+                {{ nav_link('index', 'Home')}}
+                {{ nav_link('about_page', 'About')}}
+                {{ nav_link('blog_page', 'Blog')}}
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            {% if current_user.is_authenticated() %}
+                {% block admin_tools %}
+                    {% if current_user.has_roles('admin') %}
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin Tools<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/admin">Administration Home</a></li>
+                                <li><a href="/config">Flask Configuration</a></li>
+                                <li><a href="/current_user">Current User</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#">Separated link</a></li>
+                            </ul>
+                        </li>
+                    {% endif %}
+                {% endblock %}
+                {% block user_tools %}
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">User Tools<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/profile">Profile</a></li>
+                            <li><a href="#">Something</a></li>
+                            <li><a href="#">Something else</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">Separated link</a></li>
+                        </ul>
+                    </li>
+                {% endblock %}
+                {{ nav_link('user.logout', 'Sign Out') }}
+            {% else %}
+                {{ nav_link('user.login', 'Sign In') }}
+            {% endif %}
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+    </nav>
+{% endblock %}
+
+{% block app_header %}
+    <h1><a href="/">GreediMonki!</a></h1>
+    <h4>An Internet of [People, Places, Things]!</h4>
+    <hr>
+{% endblock %}
+
+{%block page_header %}
+    <h2>{{ title }}</h2>
+{% endblock %}
+
+{% block debug %}
+    {% if config.DEBUG and request.values.get('debug') %}
+        {% include '/debug/flask_request.html' ignore missing %}
+    {% endif %}
+{% endblock %}
+
+{% block footer %}
+    <hr>
+    &copy; 2014 GreediMonki.com
+    {% if config.DEBUG %}
+        <p> {{self}} </p>
+    {% endif %}
+    <hr>
+{% endblock %}
+
