@@ -41,7 +41,10 @@ class ConfigDev(Config):
     DEBUG = True
     TRAP_BAD_REQUEST_ERRORS = True
     USE_SSLIFY = False
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'db/gmonki.db') 
+
+	# Flask-User
+    USER_ENABLE_EMAIL           = True
+    USER_ENABLE_CONFIRM_EMAIL   = True
 
     # Configure Flask-Mail
     MAIL_SERVER   = 'smtp.gmail.com'
@@ -50,6 +53,9 @@ class ConfigDev(Config):
     MAIL_USERNAME = os.environ.get('GMAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('GMAIL_PASSWD')
     MAIL_DEFAULT_SENDER = '"Sender" <noreply@gmonki.com>'
+
+	# Database
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'db/gmonki.db') 
 
 class ConfigStg(Config):
     #USE_SSLIFY = True
