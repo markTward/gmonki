@@ -4,6 +4,7 @@
 {% block stylesheet %}
     <!-- Bootstrap -->
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
     <!-- <style>.col-centered { float: none; margin: 0 auto; }</style> -->
 {% endblock %}
 
@@ -26,9 +27,11 @@
 
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-                {{ nav_link('index', 'Home')}}
-                {{ nav_link('about_page', 'About')}}
-                {{ nav_link('blog_page', 'Blog')}}
+            	{% if current_user.is_authenticated() %}
+                	{{ nav_link('index', 'People')}}
+                	{{ nav_link('index','Places')}}
+                	{{ nav_link('index','Things')}}
+				{% endif %}
         </ul>
         <ul class="nav navbar-nav navbar-right">
             {% if current_user.is_authenticated() %}
@@ -46,12 +49,12 @@
                         </li>
                     {% endif %}
                 {% endblock %}
-                {% block user_tools %}
+                {% block member_tools %}
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">User Tools<b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Member Tools<b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li><a href="/profile">Profile</a></li>
-                            <li><a href="#">Something</a></li>
+                            <li><a href="#">$$$</a></li>
                             <li><a href="#">Something else</a></li>
                             <li class="divider"></li>
                             <li><a href="#">Separated link</a></li>
@@ -70,7 +73,7 @@
 
 {% block app_header %}
     <h1><a href="/">{{ config.GMONKI_COMPANY_NAME_LONG }}</a></h1>
-    <h4>An Internet of [People, Places, Things]!</h4>
+    <h4>An Internet of People, Places and Things</h4>
     <hr>
 {% endblock %}
 
@@ -87,6 +90,10 @@
 {% block footer %}
     <hr>
     &copy; 2014 {{ config.GMONKI_COMPANY_NAME_FULL }}
+	<div class = "pull-right">
+			<a href="{{ url_for('about_page') }}" class="gmonki-footer-nav">About</a>
+			<a href="{{ url_for('blog_page') }}" class="gmonki-footer-nav">Blog</a>
+	</div>
     {% if config.DEBUG %}
         <p> {{self}} </p>
     {% endif %}
