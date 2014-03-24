@@ -19,3 +19,11 @@ def about_page():
 @app.route('/blog')
 def blog_page():
     return render_template('blog.html', title="Blog")
+
+@app.route('/contact')
+def contact_page():
+    return render_template('contact.html', title="Contact")
+
+@app.route('/help')
+def help_page():
+    return render_template('help.html', title="Help")

@@ -56,4 +56,4 @@ app.url_map.add(Rule('/index', endpoint='index'))
 # views
 from gmonki.views import standard
 from gmonki.views import admin
-from gmonki.views import user
+from gmonki.views import member
