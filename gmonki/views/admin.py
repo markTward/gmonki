@@ -14,9 +14,9 @@ def get_pretty_print(json_object):
 @app.route('/admin')
 @roles_required('admin')   # Use of @roles_required decorator
 def admin_page():
-    return render_template('admin.html', title="Administration")
+    return render_template('admin/admin.html', title="Administration")
 
-@app.route('/config')
+@app.route('/admin/config')
 @roles_required('admin')
 def show_flask_config():
     config_data = {'gmonki_config' : os.environ.get('GMONKI_CONFIG', None),
@@ -24,13 +24,13 @@ def show_flask_config():
                    'request.host_url' : request.host_url,
                    'request.url_root' : request.url_root,
                    'app.debug':app.debug}
-    return render_template('config.html', 
+    return render_template('admin/config.html', 
 							title='Flask Configuration', 
 							config_data = json.dumps(config_data, sort_keys=True, indent=4, separators=(',' ,': ')))
 
-@app.route('/current_user')
+@app.route('/admin/current_user')
 @roles_required('admin')
 def show_current_user():
-    return render_template('current_user.html', 
-							title='current_user attributes & methods')
+    return render_template('admin/current_user.html', 
+							title='current_user Detail')
 

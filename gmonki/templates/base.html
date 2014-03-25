@@ -28,9 +28,32 @@
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
             	{% if current_user.is_authenticated() %}
-                	{{ nav_link('people_page','People')}}
-                	{{ nav_link('places_page','Places')}}
-                	{{ nav_link('things_page','Things')}}
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">People<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                			{{ nav_link('people_page','Who Has My Things?')}}
+                            <li class="divider"></li>
+                			{{ nav_link('invite_page','Invite')}}
+                			{{ nav_link('connect_page','Connect')}}
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Places<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                			{{ nav_link('places_page','Where Are My Things?')}}
+                            <li class="divider"></li>
+                			{{ nav_link('locations_page','Locations')}}
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Things<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                			{{ nav_link('things_page','What Are My Things?')}}
+                            <li class="divider"></li>
+                			{{ nav_link('capture_page','Capture')}}
+                			{{ nav_link('catalog_page','Catalog')}}
+                        </ul>
+                    </li>
 				{% endif %}
         </ul>
         <ul class="nav navbar-nav navbar-right">
@@ -40,11 +63,10 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin Tools<b class="caret"></b></a>
                             <ul class="dropdown-menu">
-                                <li><a href="/admin">Administration Home</a></li>
-                                <li><a href="/config">Flask Configuration</a></li>
-                                <li><a href="/current_user">Current User</a></li>
+                				{{ nav_link('admin_page','Dashboard')}}
                                 <li class="divider"></li>
-                                <li><a href="#">Separated link</a></li>
+                				{{ nav_link('show_flask_config','Flask Config')}}
+                				{{ nav_link('show_current_user','Current User')}}
                             </ul>
                         </li>
                     {% endif %}
@@ -53,11 +75,9 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Member Tools<b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href="/profile">Profile</a></li>
-                            <li><a href="#">$$$</a></li>
-                            <li><a href="#">Something else</a></li>
+                			{{ nav_link('member_page','Dashboard')}}
                             <li class="divider"></li>
-                            <li><a href="#">Separated link</a></li>
+                			{{ nav_link('profile_page','Profile')}}
                         </ul>
                     </li>
                 {% endblock %}
@@ -68,6 +88,7 @@
         </ul>
       </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
+	{% block nav_level_2 %}{% endblock %}
     </nav>
 {% endblock %}
 

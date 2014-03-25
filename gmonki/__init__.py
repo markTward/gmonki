@@ -54,6 +54,6 @@ user_manager = UserManager(db_adapter, app)
 app.url_map.add(Rule('/index', endpoint='index'))
 
 # views
-from gmonki.views import standard
-from gmonki.views import admin
+from gmonki.views import public
 from gmonki.views import member
+from gmonki.views import admin
