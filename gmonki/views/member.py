@@ -12,6 +12,11 @@ from flask.ext.user import login_required, roles_required, current_user
 def people_page():
     return render_template('people/people.html', title='People')
 
+@app.route('/people/profile')
+@login_required
+def people_profile_page():
+    return render_template('people/people_profile.html', title='Profile')
+
 @app.route('/people/invite')
 @login_required
 def invite_page():
@@ -54,5 +59,10 @@ def member_page():
 
 @app.route('/member/profile')
 @login_required
-def profile_page():
-    return render_template('member/profile.html', title='Profile -- ' + current_user.username)
+def member_profile_page():
+    return render_template('member/member_profile.html', title='Profile -- ' + current_user.username)
+
+@app.route('/member/settings')
+@login_required
+def member_settings_page():
+    return render_template('member/member_settings.html', title='Settings')

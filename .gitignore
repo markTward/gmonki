@@ -30,3 +30,4 @@ nosetests.xml
 #Local Development
 *.db
 .project
+*~

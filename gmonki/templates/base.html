@@ -34,6 +34,7 @@
                             <li class="divider"></li>
                 			{{ nav_link('invite_page','Invite')}}
                 			{{ nav_link('connect_page','Connect')}}
+                			{{ nav_link('people_profile_page','Profile')}}
                         </ul>
                     </li>
                     <li class="dropdown">
@@ -47,7 +48,7 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Things<b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                			{{ nav_link('things_page','What Are My Things?')}}
+                			{{ nav_link('things_page','All the Things!')}}
                             <li class="divider"></li>
                 			{{ nav_link('capture_page','Capture')}}
                 			{{ nav_link('catalog_page','Catalog')}}
@@ -74,9 +75,8 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Member Tools<b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                			{{ nav_link('member_page','Dashboard')}}
-                            <li class="divider"></li>
-                			{{ nav_link('profile_page','Profile')}}
+                			{{ nav_link('member_profile_page','Profile')}}
+                			{{ nav_link('member_settings_page','Settings')}}
                         </ul>
                     </li>
                 {% endblock %}
@@ -121,4 +121,3 @@
     {% endif %}
     <hr>
 {% endblock %}
-
