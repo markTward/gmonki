@@ -56,11 +56,12 @@ class ConfigDev(Config):
 
 	# Database
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'db/gmonki.db') 
+    GRAPHENEDB_URL = 'http://test:y906nBkGmrA8khm2hyZi@test.sb01.stations.graphenedb.com:24789'
 
 class ConfigStg(Config):
+	# Flask App
     #USE_SSLIFY = True
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
-	
+
     # Configure Flask-Mail
     MAIL_SERVER   = 'smtp.mandrillapp.com'
     MAIL_PORT     = 465
@@ -69,6 +70,10 @@ class ConfigStg(Config):
     MAIL_PASSWORD = os.environ.get('MANDRILL_APIKEY')
     MAIL_DEFAULT_SENDER = '"Sender" <noreply@gmonki.com>'
 
+	# Database
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
+    GRAPHENEDB_URL = os.environ.get('GRAPHENEDB_URL')
+	
 class ConfigTest(Config):
     TESTING = True
     
