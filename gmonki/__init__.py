@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
+import os
 from flask import Flask, request
+from werkzeug.routing import Rule
 from flask_sslify import SSLify
 from flask.ext.babel import Babel
 from flask.ext.mail import Mail
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.user import login_required, SQLAlchemyAdapter, UserManager, UserMixin
 from flask.ext.user import roles_required
-from werkzeug.routing import Rule
-
-import os
 
 # Setup Flask and acquire configuration
 app = Flask(__name__)
@@ -57,3 +56,6 @@ app.url_map.add(Rule('/index', endpoint='index'))
 from gmonki.views import public
 from gmonki.views import member
 from gmonki.views import admin
+
+# signals
+from gmonki import signals
