@@ -18,6 +18,7 @@ itsdangerous==0.23
 passlib==1.6.2
 psycopg2==2.5.2
 py-bcrypt==0.4
+py2neo==1.6.4
 pycrypto==2.6.1
 pytz==2014.1.1
 speaklater==1.3
