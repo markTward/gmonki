@@ -11,7 +11,7 @@ def user_confirmed_email_action(sender, user, **extra):
 	# create new unique graph db node with flask-user id and username
 	try:
 		dbservice.get_graph_db()
-		gdb_user = app.gdb_client.get_or_create_indexed_node('fuid', 'fuid', user.id, {'username':user.username})
+		gdb_user = app.gdb_client.get_or_create_indexed_node('fuid', 'fuid', user.id, {'fuid':user.id, 'username':user.username})
 		gdb_user.add_labels('entity', 'person')
 	except:
 		sender.logger.error('create_gmonki_graph_user: ERROR get_graph_db()')
