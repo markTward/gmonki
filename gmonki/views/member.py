@@ -3,21 +3,25 @@
 	member.py
 """
 
-from flask import render_template
-from flask.ext.user import login_required, roles_required, current_user
-from gmonki import app, dbservice
+from flask import current_app, flash, redirect, render_template, request, url_for
+from flask.ext.user import login_required, current_user
+from gmonki import app, dbservice, forms
 
 @app.route('/people')
 @login_required
 def people_page():
 	return render_template('people/people.html', title='People')
 
-@app.route('/people/profile')
+@app.route('/people/profile', methods=['GET','POST'])
 @login_required
 def people_profile_page():
+	user_manager = current_app.user_manager
 	dbservice.get_graph_db()
 	gdb_user, = app.gdb_client.find('person',property_key='fuid', property_value=current_user.id)
-	return render_template('people/people_profile.html', title='Profile', neo4j_user = gdb_user)
+	form = forms.PeopleProfile(request.form)
+	if request.method == 'POST' and form.validate():
+		pass
+	return render_template('people/people_profile.html', title='Profile', gdb_user=gdb_user, form=form)
 
 @app.route('/people/invite')
 @login_required

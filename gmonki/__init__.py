@@ -59,3 +59,6 @@ from gmonki.views import admin
 
 # signals
 from gmonki import signals
+
+# forms
+from gmonki import forms
