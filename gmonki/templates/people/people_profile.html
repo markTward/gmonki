@@ -7,7 +7,7 @@
 	{{ form.hidden_tag() }}
 
 	{{ render_field(form.fullname) }}
-	{{ render_field(form.address_default) }}
+	{{ render_field(form.address_default, rows='5') }}
 
 	{{form.friend_sharing_default.label}}
 	{{form.friend_sharing_default}}
