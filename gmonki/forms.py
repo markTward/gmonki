@@ -10,11 +10,9 @@ class PeopleProfileForm(Form):
 								choices=[('private','Private'),('friends','Friends'),
 									     ('foaf','Friends of Friends'),('public','Public')])
 
-	'''
-	neighborhood_sharing_default = RadioField(u'Share with Your Neighborhood', choices=[(True,'Yes'),(False,'No')]) 
-	workplace_sharing_default = RadioField(u'Share with Your Workplace', choices=[(True,'Yes'),(False,'No')]) 
-	charity_sharing_default = RadioField(u'Share with Charitable Organizations', choices=[(True,'Yes'),(False,'No')]) 
-	'''
+	neighborhood_sharing_default = RadioField(u'Share with Your Neighborhood', coerce=bool, choices=[(True,'Yes'),(False,'No')]) 
+#	workplace_sharing_default = RadioField(u'Share with Your Workplace', choices=[(True,'Yes'),(False,'No')]) 
+#	charity_sharing_default = RadioField(u'Share with Charitable Organizations', choices=[(True,'Yes'),(False,'No')]) 
 
 	next = HiddenField()
 

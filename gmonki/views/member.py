@@ -22,21 +22,22 @@ def people_profile_page():
 	# initialize form
 	form = forms.PeopleProfileForm(request.form)
 
-	if request.method == 'POST' and form.validate():
+	if request.method == 'POST':
 		app.logger.debug('post-validate ')
+		form.validate()
+		app.logger.debug('form errors:' + str(form.errors))
 		gdb_user['fullname'] = form.fullname.data
 		gdb_user['address_default'] = form.address_default.data
 		gdb_user['friend_sharing_default'] = form.friend_sharing_default.data
+		gdb_user['neighborhood_sharing_default'] = form.neighborhood_sharing_default.data
 		flash('GMonki Profile Updated', 'success')
 		return redirect(form.next.data)
 	else:
 		app.logger.debug('form INITIALIZATION: ')
 		form.fullname.data = gdb_user['fullname'] if 'fullname' in gdb_user else None
 		form.address_default.data = gdb_user['address_default'] if 'address_default'in gdb_user else None
-		if 'friend_sharing_default' in gdb_user:
-			form.friend_sharing_default.data = gdb_user['friend_sharing_default']
-		else:
-			form.friend_sharing_default.data = 'private'
+		form.friend_sharing_default.data = gdb_user['friend_sharing_default'] if 'friend_sharing_default' in gdb_user else 'friends'
+		form.neighborhood_sharing_default.data = gdb_user['neighborhood_sharing_default'] if 'neighborhood_sharing_default' in gdb_user else False
 		form.next.data = request.args.get('next',url_for('people_profile_page'))
 
 	return render_template('people/people_profile.html', title='Profile', gdb_user=gdb_user, form=form)
