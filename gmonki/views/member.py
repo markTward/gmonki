@@ -6,6 +6,7 @@
 from flask import current_app, flash, redirect, render_template, request, url_for
 from flask.ext.user import login_required, current_user
 from gmonki import app, dbservice, forms
+from gmonki.models import neo4j_user
 
 @app.route('/people')
 @login_required
@@ -19,28 +20,21 @@ def people_profile_page():
 	dbservice.get_graph_db()
 	gdb_user, = app.gdb_client.find('person',property_key='fuid', property_value=current_user.id)
 
-	# initialize form
-	form = forms.PeopleProfileForm(request.form)
+	# create wtform compatible with local object of graph db user
+	local_gdb_user = neo4j_user.GraphPerson(**gdb_user.get_properties())
 
-	if request.method == 'POST':
-		app.logger.debug('post-validate ')
-		form.validate()
-		app.logger.debug('form errors:' + str(form.errors))
-		gdb_user['fullname'] = form.fullname.data
-		gdb_user['address_default'] = form.address_default.data
-		gdb_user['friend_sharing_default'] = form.friend_sharing_default.data
-		gdb_user['neighborhood_sharing_default'] = form.neighborhood_sharing_default.data
+	# initialize form with request and graph user instance
+	form = forms.PeopleProfileForm(request.form, obj=local_gdb_user)
+	form.next.data = request.args.get('next',url_for('people_profile_page'))
+
+	if request.method == 'POST' and form.validate():
+		form.populate_obj(local_gdb_user)
+		exclude_list = ['submit','next']
+		local_gdb_user_filtered_properties = {k:v for k,v in local_gdb_user.__dict__.items() if k not in exclude_list}
+		gdb_user.set_properties(local_gdb_user_filtered_properties)
 		flash('GMonki Profile Updated', 'success')
 		return redirect(form.next.data)
-	else:
-		app.logger.debug('form INITIALIZATION: ')
-		form.fullname.data = gdb_user['fullname'] if 'fullname' in gdb_user else None
-		form.address_default.data = gdb_user['address_default'] if 'address_default'in gdb_user else None
-		form.friend_sharing_default.data = gdb_user['friend_sharing_default'] if 'friend_sharing_default' in gdb_user else 'friends'
-		form.neighborhood_sharing_default.data = gdb_user['neighborhood_sharing_default'] if 'neighborhood_sharing_default' in gdb_user else False
-		form.next.data = request.args.get('next',url_for('people_profile_page'))
-
-	return render_template('people/people_profile.html', title='Profile', gdb_user=gdb_user, form=form)
+	return render_template('people/people_profile.html', title='Profile & Preferences :: ' + current_user.username, form=form)
 
 @app.route('/people/invite')
 @login_required
