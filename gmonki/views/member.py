@@ -18,7 +18,7 @@ def people_page():
 def people_profile_page():
 	# acquire graph db user info 
 	dbservice.get_graph_db()
-	gdb_user, = app.gdb_client.find('person',property_key='fuid', property_value=current_user.id)
+	gdb_user, = app.gdb_client.find('person',property_key='id', property_value=current_user.id)
 
 	# create wtform compatible with local object of graph db user
 	local_gdb_user = neo4j_user.GraphPerson(**gdb_user.get_properties())
