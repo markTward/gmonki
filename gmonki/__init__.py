@@ -58,7 +58,7 @@ from gmonki.views import member
 from gmonki.views import admin
 
 # signals
-from gmonki import signals
+from gmonki import signal_sub
 
 # forms
 from gmonki import forms
