@@ -7,14 +7,14 @@ from py2neo import neo4j
 # common function to create/merge neo4j node corresponding to user id
 def gdb_user_upsert(user):
 	# create or merge cypher query template
-	upsert_query_template = ('merge (p:person {id:%d}) '
-								'on create set p.username="%s", p.created=timestamp() '
-								'on match set  p.username="%s", p.accessed=timestamp() '
-								'return p')
+	upsert_query_string = ('merge (p:person {{id:{uid}}}) '
+								'on create set p.username="{uname}", p.created=timestamp() '
+								'on match  set p.username="{uname}", p.accessed=timestamp() '
+								'return p').format(uid=user.id, uname=user.username)
 	# attempt to create user node
 	try:
 		dbservice.get_graph_db()
-		new_node_query = neo4j.CypherQuery(app.gdb_client, (upsert_query_template % (user.id, user.username, user.username)))
+		new_node_query = neo4j.CypherQuery(app.gdb_client, upsert_query_string)
 		app.logger.info('cypher qs: ' + str(new_node_query.string))
 		user_node_result = new_node_query.execute()
 		app.logger.info('gdb_user_upsert SUCCESS User ID / Name: ' + str(user.id) + " " + str(user.username) + str(user_node_result[0]))
