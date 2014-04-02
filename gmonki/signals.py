@@ -4,29 +4,39 @@ from flask.ext.user.signals import user_confirmed_email, user_changed_username
 from gmonki import dbservice
 from py2neo import neo4j
 
-@user_confirmed_email.connect_via(app)
-def user_confirmed_email_action(sender, user, **extra):
-	
-	# neo4j cypher query to create or merge into existing node based on fuid and username
-	cypher_query_template = 'merge (p:person {username:"%s", fuid:%d}) return p'
-
-	# create new unique graph db node with flask-user id and username
+# common function to create/merge neo4j node corresponding to user id
+def gdb_user_upsert(user_id):
+	# create or merge cypher query template
+	upsert_query_template = ('merge (p:person {gmonki_id:%d}) '
+								'on create set p.created=timestamp() '
+								'on match set p.accessed=timestamp() '
+								'return p')
+	# attempt to create user node
 	try:
 		dbservice.get_graph_db()
-		new_node_query = neo4j.CypherQuery(app.gdb_client, (cypher_query_template % (user.username, user.id)))
-		new_node_result = new_node_query.execute() 
-		sender.logger.info('user_confirmed_email: ' + str(new_node_result[0]))
+		new_node_query = neo4j.CypherQuery(app.gdb_client, (upsert_query_template % (user_id)))
+		app.logger.info('cypher qs: ' + str(new_node_query.string))
+		user_node_result = new_node_query.execute()
+		app.logger.info('gdb_user_upsert SUCCESS User ID: ' + str(user_id) + " " + str(user_node_result[0]))
+		return user_node_result
+	except Exception, e:
+		app.logger.error('gdb_user_upsert failed for User ID: ' + str(user_id) + str(e.__class__))
+		return None
+
+@user_confirmed_email.connect_via(app)
+def user_confirmed_email_action(sender, user, **extra):
+	# create new unique graph db node matching flask-user id
+	try:
+		result = gdb_user_upsert(user.id)	
+		sender.logger.info('user_confirmed_email_action: ' + str(result[0]))
 	except:
-		sender.logger.error('create_gmonki_graph_user: ERROR get_graph_db()')
+		sender.logger.error('user_confirmed_email_action: ERROR get_graph_db()')
 
 @user_changed_username.connect_via(app)
 def user_changed_name_action(sender, user, **extra):
-	
-	# synch username between flask-user and  graph db
+	# create new unique graph db node matching flask-user id
 	try:
-		dbservice.get_graph_db()
-		gdb_user, = app.gdb_client.find('person',property_key='fuid', property_value=user.id)
-		gdb_user['username'] = user.username
-		sender.logger.info('SIGNAL user_changed_name: ' + str(gdb_user))
+		result = gdb_user_upsert(user.id)	
+		sender.logger.info('user_changed_name_action: ' + str(result[0]))
 	except:
-		sender.logger.error('create_gmonki_graph_user: ERROR get_graph_db()')
+		sender.logger.error('user_changed_name_action: ERROR get_graph_db()')
