@@ -5,9 +5,9 @@
 <p>Thank you for registering with {{ config.GMONKI_COMPANY_NAME_LONG }}.</p>
 
 {% if user_manager.enable_confirm_email %}
-<p>Visit the link below to complete your registration:</p>
+<p>Please visit the link below to complete your registration:</p>
 
-<p><a href="{{ confirm_email_link }}">Confirm your email address</a>.</p>
+<p><a href="{{ confirm_email_link }}?next={{ url_for('people_profile_page') }}">Confirm your email address</a>.</p>
 
 <p>If you did not initiate this registration, you may safely ignore this email.</p>
 {% endif %}

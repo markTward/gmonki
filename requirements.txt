@@ -5,7 +5,7 @@ Flask-Login==0.2.10
 Flask-Mail==0.9.0
 Flask-SQLAlchemy==1.0
 Flask-SSLify==0.1.4
-Flask-User==0.4.5
+Flask-User==0.4.6
 Flask-WTF==0.9.5
 Jinja2==2.7.2
 MarkupSafe==0.19
