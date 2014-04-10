@@ -39,3 +39,21 @@ def gdb_user_upsert(user):
         app.logger.error('gdb_user_upsert failed for User ID: ' + str(user.id) + str(e.__class__))
         return None
 
+# common function to create/merge neo4j node corresponding to user id
+def gdb_address_upsert(location):
+    # create or merge cypher query template
+    upsert_query_string = ('merge (a:address {{full_address:"{location_text}"}}) '
+                                'on create set a.created=timestamp() '
+                                'on match  set a.accessed=timestamp() '
+                                'return a').format(location_text=location)
+    # attempt to create user node
+    try:
+        get_graph_db()
+        upsert_query = neo4j.CypherQuery(app.gdb_client, upsert_query_string)
+        app.logger.info('cypher qs: ' + str(upsert_query.string))
+        upsert_result = upsert_query.execute()
+        app.logger.info('gdb_address_upsert SUCCESS: ' + str(upsert_result[0]))
+        return upsert_result
+    except Exception, e:
+        app.logger.error('gdb_address_upsert failed for User ID: ' + str(location) + str(e.__class__))
+        return None

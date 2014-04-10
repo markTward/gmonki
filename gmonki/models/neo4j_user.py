@@ -5,3 +5,6 @@ class Neo4jGenericNode(object):
 
 class GraphPerson(Neo4jGenericNode):
 	pass
+
+class GraphAddress(Neo4jGenericNode):
+	pass

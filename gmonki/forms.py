@@ -4,7 +4,7 @@ from wtforms import validators, ValidationError
 
 class PeopleProfileForm(Form):
 	fullname = StringField(u'Full Name', [validators.required()])
-	address_default = TextAreaField(u'Primary Address')
+	primary_address = TextAreaField(u'Primary Address')
 	friend_sharing_default = RadioField(u'Sharing with Friends',
 								choices=[('private','Private'),('friends','Friends'),
 									     ('foaf','Friends of Friends'),('public','Public')])
