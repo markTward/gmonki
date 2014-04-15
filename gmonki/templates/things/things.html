@@ -1,4 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
-<p>...</p>
+{% if things %}
+	<ul>
+	{% for thing in things %}
+		<li>{{ thing.name|e }}</li>
+	{% endfor %}
+	</ul>
+{% else %}
+	<p>Time to get your stuff loaded!</p>
+{% endif %}
 {% endblock %}

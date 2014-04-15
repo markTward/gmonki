@@ -28,9 +28,9 @@ def people_profile_page():
 	gdb_primary_address_rel = list(app.gdb_client.match(start_node=gdb_user, rel_type="PRIMARY_ADDRESS"))
 	if gdb_primary_address_rel:
 		gdb_primary_address_node = gdb_primary_address_rel[0].end_node
-		local_gdb_primary_address = neo4j_user.GraphAddress(**gdb_primary_address_node.get_properties())
+		local_gdb_primary_address = neo4j_user.GraphLocation(**gdb_primary_address_node.get_properties())
 	else:
-		local_gdb_primary_address = neo4j_user.GraphAddress()
+		local_gdb_primary_address = neo4j_user.GraphLocation()
 		local_gdb_primary_address.full_address = None
 
 	# initialize form with request and graph user instance
